@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enviar mediante formulario</title>
+</head>
+<body>
+    <h2>Formulario de Envío Wahtsapp Server 1</h2>
+    <form id="jsonForm">
+        <label for="phone">Teléfono:</label><br>
+        <input type="text" id="phone" name="phone" required><br>
+        <label for="message">Mensaje:</label><br>
+        <textarea id="message" name="message" required></textarea><br>
+        <label for="mediaUrl">URL de la multimedia:</label><br>
+        <input type="text" id="mediaUrl" name="mediaUrl"><br>
+        <button type="submit">Enviar</button>
+    </form>
+
+    <script>
+        document.getElementById('jsonForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            // Obtener los valores de los campos del formulario
+            const phone = document.getElementById('phone').value;
+            const message = document.getElementById('message').value;
+            const mediaUrl = document.getElementById('mediaUrl').value;
+
+            // Construir el objeto JSON con los datos del formulario
+            const jsonData = {
+                phone: phone,
+                message: message,
+                mediaUrl: mediaUrl
+            };
+
+            // Enviar la solicitud POST
+            const response = await fetch('http://149.50.134.153:3002/send-message', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(jsonData)
+            });
+
+            // Mostrar el resultado en la consola
+            const result = await response.text();
+            console.log(result);
+        });
+    </script>
+</body>
+</html>
